@@ -2,6 +2,8 @@ var siteName = document.getElementById("siteName");
 var siteUrl = document.getElementById("siteUrl");
 var wrongData = document.getElementById("wrongData");
 var closeBtn = document.getElementById("closeBtn");
+var searchSites = document.getElementById("searchSites");
+var myIndex
 bookMark = [];
 
 if (localStorage.getItem("storage") == null) {
@@ -50,6 +52,12 @@ function displaySite() {
                     Delete
                   </button>
                 </td>
+                <td>
+                  <button onclick = "getSiteForUpdate(${i})" class="btn btn-warning">
+                    <i class="fa-solid fa-trash-can"></i>
+                    update
+                  </button>
+                </td>
               </tr>`;
   }
   document.getElementById("siteData").innerHTML = cartona;
@@ -93,3 +101,49 @@ function validateUrl() {
 closeBtn.addEventListener("click", function () {
   wrongData.classList.add("d-none");
 });
+
+
+function siteSearch() {
+  var term = searchSites.value.toLowerCase();
+
+  var cartona = ""
+  for (var i = 0; i < bookMark.length; i++) {
+    if (bookMark[i].name.includes(term)) {
+      cartona += `<tr class="border-bottom">
+                <td>${i + 1}</td>
+                <td>${bookMark[i].name.replace(term , `<span class='bg-warning'>${term}</span>`)}</td>
+                <td class="p-2">
+                   <a
+                    href="http://${bookMark[i].url}"
+                    target="_blank"
+                    class="text-decoration-none text-white btn btn-success"
+                    ><i class="fa-solid fa-eye"></i> Visit</a
+                  >
+                </td>
+                <td>
+                  <button onclick = "deleteSite(${i})" class="btn btn-danger">
+                    <i class="fa-solid fa-trash-can"></i>
+                    Delete
+                  </button>
+                </td>
+              </tr>`;
+    }
+    document.getElementById("siteData").innerHTML = cartona;
+  }
+}
+
+
+function getSiteForUpdate(index) {
+  myIndex = index
+  siteName.value = bookMark[index].name
+  siteUrl.value = bookMark[index].url
+}
+
+function updateSite(myIndex) {
+  
+  bookMark[index].name = siteName.value
+  bookMark[index].url = siteUrl.value
+  localStorage.setItem("storage", JSON.stringify(bookMark));
+  displaySite()
+}
+
