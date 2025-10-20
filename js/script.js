@@ -3,7 +3,9 @@ var siteUrl = document.getElementById("siteUrl");
 var wrongData = document.getElementById("wrongData");
 var closeBtn = document.getElementById("closeBtn");
 var searchSites = document.getElementById("searchSites");
-var myIndex
+var updateBtn = document.getElementById("updateBtn");
+var addBtn = document.getElementById("addBtn");
+var myIndex;
 bookMark = [];
 
 if (localStorage.getItem("storage") == null) {
@@ -53,8 +55,8 @@ function displaySite() {
                   </button>
                 </td>
                 <td>
-                  <button onclick = "getSiteForUpdate(${i})" class="btn btn-warning">
-                    <i class="fa-solid fa-trash-can"></i>
+                  <button onclick = "getSiteForUpdate(${i})" class="btn btn-warning text-white">
+                    <i class="fa-solid fa-pen"></i>
                     update
                   </button>
                 </td>
@@ -70,7 +72,7 @@ function deleteSite(index) {
 }
 
 function validateSiteName() {
-  var siteNameRegax = /^[a-z]{3,20}$/i;
+  var siteNameRegax = /^[a-z0-9]{3,30}$/i;
   var siteNameTest = siteName.value;
   if (siteNameRegax.test(siteNameTest) == true) {
     siteName.classList.add("is-valid");
@@ -102,16 +104,18 @@ closeBtn.addEventListener("click", function () {
   wrongData.classList.add("d-none");
 });
 
-
 function siteSearch() {
   var term = searchSites.value.toLowerCase();
 
-  var cartona = ""
+  var cartona = "";
   for (var i = 0; i < bookMark.length; i++) {
     if (bookMark[i].name.includes(term)) {
       cartona += `<tr class="border-bottom">
                 <td>${i + 1}</td>
-                <td>${bookMark[i].name.replace(term , `<span class='bg-warning'>${term}</span>`)}</td>
+                <td>${bookMark[i].name.replace(
+                  term,
+                  `<span class='bg-warning'>${term}</span>`
+                )}</td>
                 <td class="p-2">
                    <a
                     href="http://${bookMark[i].url}"
@@ -126,24 +130,35 @@ function siteSearch() {
                     Delete
                   </button>
                 </td>
+                <td>
+                  <button onclick = "getSiteForUpdate(${i})" class="btn btn-warning text-white">
+                    <i class="fa-solid fa-pen"></i>
+                    update
+                  </button>
+                </td>
               </tr>`;
     }
     document.getElementById("siteData").innerHTML = cartona;
   }
 }
 
-
 function getSiteForUpdate(index) {
-  myIndex = index
-  siteName.value = bookMark[index].name
-  siteUrl.value = bookMark[index].url
+  myIndex = index;
+  siteName.value = bookMark[index].name;
+  siteUrl.value = bookMark[index].url;
+  updateBtn.classList.remove("d-none");
+  addBtn.classList.add("d-none");
 }
 
 function updateSite(myIndex) {
-  
-  bookMark[index].name = siteName.value
-  bookMark[index].url = siteUrl.value
-  localStorage.setItem("storage", JSON.stringify(bookMark));
-  displaySite()
+  if (validateSiteName() == true && validateUrl() == true) {
+    bookMark[myIndex].name = siteName.value;
+    bookMark[myIndex].url = siteUrl.value;
+    localStorage.setItem("storage", JSON.stringify(bookMark));
+    addBtn.classList.remove("d-none");
+    updateBtn.classList.add("d-none");
+    displaySite();
+    clearSiteData();
+  } else {
+  }
 }
-

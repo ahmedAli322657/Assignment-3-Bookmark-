@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="./css/all.min.css" />
     <link rel="stylesheet" href="./css/bootstrap.min.css" />
     <link rel="stylesheet" href="./css/style.css" />
-    <title>Document</title>
+    <title>Bookmark</title>
   </head>
   <body>
     <div class="wrongData shadow-lg d-none" id="wrongData">
@@ -75,22 +75,27 @@
               </div>
             </div>
             <div class="text-center">
-              <button onclick="addSite()" class="btn formBtn">Submit</button>
+              <button onclick="addSite()" id="addBtn" class="btn formBtn">Submit</button>
+              <button onclick="updateSite(myIndex)" id="updateBtn" class="btn formBtn d-none bg-warning text-white">Update</button>
             </div>
           </div>
         </div>
         <div>
-          <div class="mt-5">
+          <div class="mt-5 ">
+            <div class="d-flex justify-content-center align-items-center mb-3">
+              <i class="fa-solid fa-magnifying-glass fa-lg me-2"></i>
+              <label for="searchSites">Site Search</label>
+            </div>
             <input oninput="siteSearch()" id="searchSites" type="text" class="form-control w-50 m-auto" placeholder="Search">
           </div>
-          <table class="w-100 bg-white text-center mt-5">
+          <table class="w-100 bg-white text-center mt-4">
             <thead>
               <tr class="border-bottom">
                 <th class="p-2">Index</th>
                 <th class="p-2">Website Name</th>
                 <th class="p-2">Visit</th>
                 <th class="p-2">Delete</th>
-                <th class="p-2">Delete</th>
+                <th class="p-2">Update</th>
               </tr>
             </thead>
             <tbody id="siteData">
